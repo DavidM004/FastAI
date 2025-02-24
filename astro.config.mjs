@@ -10,7 +10,7 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  adapter: node(),
+  adapter: node({ mode: "standalone" }),
   integrations: [tailwind(), alpinejs({ entrypoint: "/src/alpine" }), icon()],
   devToolbar: { enabled: false },
 });
