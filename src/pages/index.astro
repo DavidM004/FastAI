@@ -1,0 +1,365 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Aside from "../components/Aside.astro";
+import { Icon } from "astro-icon/components";
+import Cards from "../components/Cards.astro";
+import Pricing from "../components/Pricing.astro";
+import Account from "../components/Account.astro";
+import Button1 from "../components/Button1.astro";
+import Button2 from "../components/Button2.astro";
+import Draw from "../components/Draw.astro";
+import { Image } from "astro:assets";
+import Logo from "../logo.webp";
+import starrySky from "../starry-sky.jpg";
+---
+
+<Layout>
+    <div class="flex h-dvh bg-starry-sky bg-no-repeat bg-center bg-cover">
+        <!-- aside (mobile and dekstop) -->
+        <aside
+            class="absolute top-0 left-0 w-5/6 h-dvh z-10 bg-secondary text-white transition-all lg:hidden"
+            x-data
+            x-cloak
+            x-show="$store.aside.open"
+            x-transition:enter="transition ease-in-out duration-300"
+            x-transition:enter-start="-translate-x-full"
+            x-transition:enter-end="-translate-x-0"
+            x-transition:leave="transition ease-in-out duration-300"
+            x-transition:leave-start="-translate-x-0"
+            x-transition:leave-end="-translate-x-full"
+        >
+            <Aside />
+        </aside>
+        <div x-data class="relative">
+            <aside
+                x-show="!$store.aside.open"
+                x-transition:enter="transition ease-in-out duration-300"
+                x-transition:enter-start="-translate-x-full"
+                x-transition:enter-end="-translate-x-0"
+                x-transition:leave="transition ease-in-out duration-300"
+                x-transition:leave-start="-translate-x-0"
+                x-transition:leave-end="-translate-x-full"
+            >
+                <div
+                    class="hidden lg:flex h-dvh flex-col bg-secondary text-white"
+                >
+                    <Aside />
+                </div>
+            </aside>
+            <div
+                class="absolute -right-5 top-5 w-5 h-10 hidden lg:flex items-center justify-center rounded-r-lg bg-white text-text cursor-pointer"
+                @click="$store.aside.toggle"
+            >
+                <Icon name="lucide:chevron-left" />
+            </div>
+        </div>
+        <div
+            x-data
+            @click="$store.aside.toggle"
+            class="cursor-pointer lg:hidden bg-secondary w-full flex items-center h-[5dvh] px-5 absolute top-0 left-0"
+        >
+            <Icon name="lucide:menu" class="text-2xl absolute text-white" />
+            <div
+                class="text-center text-white flex w-full items-center gap-1 justify-center"
+            >
+                <Image src={Logo} alt="logo" class="size-7" /> Chad AI
+            </div>
+        </div>
+
+        <!-- chat window -->
+        <div x-data class="grow flex flex-col py-9">
+            <template x-if="$store.chat.messages.length">
+                <div
+                    class="container grow overflow-y-scroll py-5"
+                    id="chatmessages"
+                >
+                    <template x-for="message in $store.chat.messages">
+                        <div
+                            class="p-5 rounded-2xl"
+                            :class="message.from == 'system' ? 'bg-[#3E6A97] mb-5' : ' bg-section mb-3'"
+                        >
+                            <div class="container flex items-center gap-3">
+                                <template x-if="message.from == 'user'">
+                                    <Icon
+                                        name="lucide:user"
+                                        class="size-9 p-1.5 bg-neutral-200 rounded-full"
+                                    />
+                                </template>
+                                <template x-if="message.from == 'system'">
+                                    <Icon
+                                        name="lucide:bot"
+                                        class="size-9 p-1.5 bg-neutral-200 rounded-full"
+                                    />
+                                </template>
+                                <div class="" x-text="message.text"></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template x-if="!$store.chat.messages.length">
+                <div class="container mt-12 lg:mt-0 grow">
+                    <div class="hidden lg:block">
+                        <Cards />
+                        <div class="flex lg:hidden gap-3" id="authbuttons">
+                            <div
+                                class="bg-gradient-to-r from-fuchsia-500 to-purple-500 rounded-lg lg:min-w-56 text-center text-white px-4 py-2 cursor-pointer"
+                            >
+                                Войти
+                            </div>
+                            <div
+                                class="bg-gradient-to-r from-fuchsia-500 to-purple-500 rounded-lg lg:min-w-56 text-center text-white px-4 py-2 cursor-pointer"
+                            >
+                                Зарегистрироваться
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:hidden flex gap-3 grow">
+                        <div
+                            class="bg-section p-3 rounded-xl flex items-center gap-3 grow"
+                        >
+                            <div>✏️</div> Пишет тексты...
+                        </div>
+                        <div class="bg-section p-3 rounded-xl">🖼️</div>
+                        <div class="bg-section p-3 rounded-xl">⌨️</div>
+                    </div>
+                    <br />
+                    <div>
+                        <div
+                            class="bg-section lg:hidden py-7 space-y-5 rounded-lg"
+                        >
+                            {
+                                [
+                                    "Составь список из 9 известных фильмов Тарантино",
+                                    "Предложи несколько классных идей для свидания",
+                                    `Напиши введение для сочинения на тему "Счастье"`,
+                                ].map((t) => (
+                                    <div class="hover:bg-neutral-50 cursor-pointer">
+                                        <div class="py-1 px-7 gap-3 text-sm flex items-center text-neutral-400">
+                                            <div>{t}</div>
+                                            <Icon
+                                                name="lucide:chevron-right"
+                                                class="text-xl"
+                                            />
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <br />
+                        <div
+                            class="bg-gradient-to-r mb-3 from-fuchsia-500 to-purple-500 rounded-lg lg:min-w-56 text-center text-white px-4 py-2 cursor-pointer"
+                            id="authbuttons2"
+                        >
+                            Войти
+                        </div>
+
+                        <div
+                            class="bg-gradient-to-r from-fuchsia-500 to-purple-500 rounded-lg lg:min-w-56 text-center text-white px-4 py-2 cursor-pointer"
+                            id="authbuttons3"
+                        >
+                            Зарегистрироваться
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div class="container space-y-3">
+                <div class="flex gap-3 items-center">
+                    <Button1 />
+                    <Button2 />
+                    <Draw />
+                </div>
+
+                <div class="bg-section px-5 py-3 rounded-xl">
+                    <form
+                        x-data="form"
+                        class="flex items-center"
+                        @submit="submit"
+                    >
+                        <input
+                            type="text"
+                            placeholder="Сообщение"
+                            class="placeholder-hint grow"
+                            x-model="message"
+                        />
+                        <Icon name="lucide:send" class="text-hint" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="absolute top-0 left-0 bg-secondary/30 w-full h-dvh flex items-center justify-center"
+        id="popup"
+    >
+        <div class="bg-white rounded-lg p-9" id="modal">
+            <div
+                class="text-center text-2xl flex items-center gap-1 justify-center"
+            >
+                <Image src={Logo} alt="logo" /> Chad AI
+            </div>
+            <br />
+            <div class="text-center text-sm text-hint">
+                Быстро продолжить через
+            </div>
+            <div class="py-5">
+                <button
+                    class="bg-neutral-100 flex items-center gap-3 px-4 py-2 w-full rounded-lg text-start"
+                    id="telegram-auth-btn"
+                >
+                    <Icon name="logos:telegram" />
+                    Telegram
+                </button>
+            </div>
+            <div class="text-xs text-hint">
+                Продолжая, вы соглашаетесь с <a
+                    href="#"
+                    class="underline decoration-hint">публичной офертой</a
+                >
+            </div>
+        </div>
+    </div>
+
+    <div
+        x-data
+        x-cloak
+        x-show="$store.pricing.value"
+        class="absolute top-0 left-0 min-h-dvh w-full bg-secondary/30 flex
+    items-center justify-center"
+    >
+        <div class="bg-bg p-9 rounded-lg space-y-9">
+            <div
+                class="text-xl flex items-center justify-between"
+                @click="$store.pricing.value = false"
+            >
+                <div>Выберите тариф</div>
+                <Icon name="lucide:x" class="cursor-pointer" />
+            </div>
+            <Pricing />
+            <div
+                class="flex gap-5 text-hint text-sm items-center justify-center"
+            >
+                <div>
+                    <Icon name="lucide:calculator" class="inline" /> Как считаются
+                    слова
+                </div>
+                <div>
+                    <Icon name="lucide:headset" class="inline" /> Проблема с оплатой?
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        x-data
+        x-cloak
+        x-show="$store.account.value"
+        class="absolute top-0 left-0 min-h-dvh w-full bg-secondary/30 flex
+    items-center justify-center"
+    >
+        <Account />
+    </div>
+
+    <div
+        x-data
+        x-cloak
+        x-show="$store.news.value"
+        class="absolute top-0 left-0 min-h-dvh w-full bg-secondary/30 flex
+    items-center justify-center"
+    >
+        <div class="bg-bg p-7 rounded-lg space-y-9">
+            <div
+                class="text-xl flex items-center justify-between"
+                @click="$store.news.value = false"
+            >
+                <div>Новости и поддержка</div>
+                <Icon name="lucide:x" class="cursor-pointer" />
+            </div>
+
+            <div class="space-y-3">
+                <div
+                    class="bg-white rounded-lg px-5 py-3 flex gap-5 min-w-96 items-center"
+                >
+                    <Icon name="lucide:send" />
+                    <div class="space-y-1">
+                        <div class="text-xl">Телеграм-канал</div>
+                        <div class="text-hint text-sm">Новости и чат</div>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-lg px-5 py-3 flex gap-5 min-w-96 items-center"
+                >
+                    <Icon name="lucide:headset" />
+                    <div class="space-y-1">
+                        <div class="text-xl">Техподдержка</div>
+                        <div class="text-hint text-sm">
+                            Telegram-чат с сотрудником Chad AI
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-lg px-5 py-3 flex gap-5 min-w-96 items-center"
+                >
+                    <Icon name="lucide:circle-help" />
+                    <div class="space-y-1">
+                        <div class="text-xl">Вопросы и ответы</div>
+                        <div class="text-hint text-sm">
+                            Часто задаваемые вопросы
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("popup")?.addEventListener("click", (e) => {
+            if ((e.target as HTMLElement).id == "popup") {
+                document.getElementById("popup")?.remove();
+            }
+        });
+    </script>
+
+    <script>
+        let is_authorized = false;
+        document
+            .getElementById("telegram-auth-btn")
+            ?.addEventListener("click", () => {
+                document.getElementById("popup")?.remove();
+                document.getElementById("authbuttons")?.remove();
+                document.getElementById("authbuttons2")?.remove();
+                document.getElementById("authbuttons3")?.remove();
+                is_authorized = true;
+            });
+    </script>
+    <script>
+        document
+            .getElementById("telegram-auth-btn")
+            .addEventListener("click", function () {
+                const botId = "8098711103";
+                const origin = encodeURIComponent("rusgptchat.ru");
+                const requestAccess = "write";
+                const returnTo = encodeURIComponent(
+                    "https://rusgptchat.ru/Authentication/Telegram",
+                );
+
+                const authUrl = `https://oauth.telegram.org/auth?bot_id=${botId}&origin=${origin}&request_access=${requestAccess}&return_to=${returnTo}`;
+
+                const popup = window.open(
+                    authUrl,
+                    "TelegramAuth",
+                    "width=500,height=600",
+                );
+
+                const checkPopupClosed = setInterval(() => {
+                    if (!popup || popup.closed) {
+                        clearInterval(checkPopupClosed);
+                        console.log(
+                            "Popup closed, handle authentication result here.",
+                        );
+                    }
+                }, 500);
+            });
+    </script>
+</Layout>

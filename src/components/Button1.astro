@@ -1,0 +1,90 @@
+<div class="relative inline-block" x-data="{ open: false }">
+  <!-- Main Button -->
+  <button
+    @click="open = !open"
+    class="flex items-center justify-between w-32 lg:w-56 px-4 py-2 bg-section hover:bg-purple-50 hover:text-purple-500 rounded-lg text-gray-900 transition-colors"
+  >
+    <div class="flex items-center gap-2">
+      <!-- <div class="w-5 h-5 rounded-full bg-purple-600"></div> -->
+      <span class="text-xs font-medium lg:text-sm">GPT-4o Mini</span>
+    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="text-gray-500"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </button>
+
+  <!-- Popup -->
+  <div
+    x-show="open"
+    @click.away="open = false"
+    class="absolute -top-52 left-0 w-52 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-2 space-y-1"
+  >
+    <div class="px-3 py-1 text-sm text-gray-600">Быстрые нейросети</div>
+
+    <!-- Selected Option -->
+    <button
+      class="flex items-center justify-between w-full px-3 py-2 hover:bg-gray-50"
+    >
+      <div class="flex items-center gap-2">
+        <div class="w-5 h-5 rounded-full bg-purple-600"></div>
+        <span class="text-sm">GPT-4o Mini</span>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-gray-400"
+      >
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </button>
+
+    <div class="px-3 py-1 text-sm text-gray-600">Умные нейросети</div>
+
+    <!-- Disabled Option -->
+    <button
+      class="flex items-center justify-between w-full px-3 py-2 hover:bg-gray-50"
+    >
+      <div class="flex items-center gap-2">
+        <div class="w-5 h-5 rounded-full border-2 border-gray-200"></div>
+        <span class="text-sm text-gray-700">GPT-4o</span>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-gray-400"
+      >
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </button>
+
+    <!-- Subscription Note -->
+    <div class="px-3 py-1 text-xs text-purple-600">
+      Доступно в платных тарифах
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import Logo from "../logo.webp";
+---
+
+<div
+  x-data
+  @click="$store.aside.toggle"
+  class="p-7 flex lg:hidden justify-end text-2xl"
+>
+  <Icon name="lucide:x" />
+</div>
+
+<div class="text-center text-3xl py-5 flex gap-1 items-center justify-center">
+  <Image src={Logo} alt="logo" /> Chad AI
+</div>
+<!-- chats -->
+<div class="p-3 grow space-y-3">
+  <button
+    class="bg-secondary-item rounded-lg p-3 flex items-center justify-center gap-2 w-full text-center"
+  >
+    <Icon name="lucide:circle-plus" />
+    Новый чат
+  </button>
+
+  <div x-data x-cloak x-show="$store.chat.messages.length" class="">
+    <div class="p-3 text-hint">
+      {
+        new Date().toLocaleDateString("ru", {
+          day: "2-digit",
+          month: "long",
+          weekday: "short",
+        })
+      }
+    </div>
+    <div class="flex gap-3 items-center p-3 bg-secondary-item rounded-lg">
+      <Icon name="lucide:message-square" class="text-hint" />
+      <div x-text="$store.chat.messages[0]?.text"></div>
+    </div>
+  </div>
+</div>
+<div class="p-3 space-y-1">
+  <button
+    class="bg-secondary-item rounded-lg p-3 px-5 flex items-center gap-3 w-full text-center hover:bg-neutral-700"
+    x-data
+    @click="$store.account.value = true; $store.aside.open = false"
+  >
+    <Icon name="lucide:users" />
+    <div class="text-left grow">
+      <div class="text-sm">newstarslab@gmail.com</div>
+      <div class="text-xs text-neutral-400">Осталось 9 запросов из 10</div>
+    </div>
+    <Icon name="lucide:chevron-right" class="text-xl" />
+  </button>
+  <button
+    class="bg-secondary-item rounded-lg p-3 px-5 flex items-center gap-3 w-full text-center hover:bg-neutral-700"
+    x-data
+    @click="$store.pricing.value = true; $store.aside.open = false"
+  >
+    <Icon name="lucide:star" />
+    <div class="text-left grow">
+      <div class="text-sm">Тарифы и оплата</div>
+    </div>
+    <div
+      class="text-xs bg-gradient-to-r from-fuchsia-500 to-orange-500 rounded px-2 py-1"
+    >
+      Для вас
+    </div>
+  </button>
+  <button
+    class="bg-secondary-item rounded-lg p-3 px-5 flex items-center gap-3 w-full text-center hover:bg-neutral-700"
+    x-data
+    @click="$store.news.value = true; $store.aside.open = false"
+  >
+    <Icon name="lucide:grid-2x2-plus" />
+    <div class="text-left grow">
+      <div class="text-sm">Новости и поддержка</div>
+    </div>
+  </button>
+</div>
