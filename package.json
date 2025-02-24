@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/alpinejs": "^0.4.1",
+    "@astrojs/node": "^9.1.1",
     "@astrojs/tailwind": "^5.1.4",
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/lucide": "^1.2.24",
