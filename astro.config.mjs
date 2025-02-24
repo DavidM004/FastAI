@@ -13,4 +13,8 @@ export default defineConfig({
   adapter: node({ mode: "standalone" }),
   integrations: [tailwind(), alpinejs({ entrypoint: "/src/alpine" }), icon()],
   devToolbar: { enabled: false },
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+  },
 });
